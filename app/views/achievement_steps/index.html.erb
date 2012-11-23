@@ -1,0 +1,31 @@
+<h1>Listing achievement_steps</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Achievement</th>
+    <th>Value</th>
+    <th>Name</th>
+    <th>Slug</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @achievement_steps.each do |achievement_step| %>
+  <tr>
+    <td><%= achievement_step.id %></td>
+    <td><%= achievement_step.achievement_id %></td>
+    <td><%= achievement_step.value %></td>
+    <td><%= achievement_step.name %></td>
+    <td><%= achievement_step.slug %></td>
+    <td><%= link_to 'Show', achievement_step %></td>
+    <td><%= link_to 'Edit', edit_achievement_step_path(achievement_step) %></td>
+    <td><%= link_to 'Destroy', achievement_step, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Achievement step', new_achievement_step_path %>
