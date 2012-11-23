@@ -1,4 +1,17 @@
 Achieveit::Application.routes.draw do
+  resources :users
+
+  resources :developer_projects
+
+  resources :developers
+
+  resources :projects
+
+  resources :achievements
+
+  get  'user-achievements/:user_id/:achievement_id(.:format)' => 'user_achievements#show',      :defaults => {:format => 'json'}
+  post 'user-achievements/:user_id/:achievement_id(.:format)' => 'user_achievements#increment', :defaults => {:format => 'json'}
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

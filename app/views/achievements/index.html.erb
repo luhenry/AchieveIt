@@ -1,0 +1,31 @@
+<h1>Listing achievements</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Project ID</th>
+    <th>Name</th>
+    <th>Slug</th>
+    <th>Image</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @achievements.each do |achievement| %>
+  <tr>
+    <td><%= achievement.id %></td>
+    <td><%= achievement.project_id %></td>
+    <td><%= achievement.name %></td>
+    <td><%= achievement.slug %></td>
+    <td><%= achievement.image %></td>
+    <td><%= link_to 'Show', achievement %></td>
+    <td><%= link_to 'Edit', edit_achievement_path(achievement) %></td>
+    <td><%= link_to 'Destroy', achievement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Achievement', new_achievement_path %>
