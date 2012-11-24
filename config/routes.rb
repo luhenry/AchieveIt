@@ -1,4 +1,8 @@
 Achieveit::Application.routes.draw do
+  resources :tests
+
+  resources :projects
+
   root to: 'homepage#index'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
@@ -8,7 +12,7 @@ Achieveit::Application.routes.draw do
     delete 'sign-out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
   end
 
-  devise_for :developers, path: 'admin', controllers: {registrations: "developers/registrations"}
+  devise_for :developers, path: 'admin', controllers: {registrations: "developers/registrations", sessions: "developers/sessions"}
 
   resources :users
 
