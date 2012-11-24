@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base  
+  prepend_view_path 'app/views/mycustomfolder'
+  
   rescue_from Exception, :with => :on_error
 
   def on_error e
