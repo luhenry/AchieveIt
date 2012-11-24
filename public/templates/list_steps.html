@@ -10,15 +10,13 @@
 		{{#data}}
 		<tr>
 			<td>{{name}}</td>
-			<td><a href="#step/edit/{{slug}}">Éditer</a></td>
+			<td><a href="#step/edit/{{slug}}">Edit</a></td>
 		</tr>
 		{{/data}}
 	</tbody>
-	<tfoot>
-		<tr>
-			<td></td>
-			<td><a href="#step/new" class="btn btn-primary">New step</button></td>
-		</tr>
-	</tfoot>
 </table>
+
+<div class="form-actions">
+  <a href="#step/new" class="btn btn-primary">New step</a>
+</div>
 </script>
