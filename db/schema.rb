@@ -134,7 +134,7 @@ ActiveRecord::Schema.define(:version => 20121124123712) do
     t.string   "last_sign_in_ip"
     t.string   "provider_name"
     t.string   "provider_uid"
-    t.string   "authentication_token"
+    t.string   "provider_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
