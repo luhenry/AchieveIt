@@ -11,16 +11,20 @@ function load(json_url, template_url, template_id, additionnal_data) {
             }
         },
         success: function(json_data, textStatus, jqXHR) {
-            console.log(json_data);
             var data = {
                 data: json_data
             }
             $.extend(data, additionnal_data);
-            $.Mustache.load('templates/' + template_url).done(function () {
-                    $('#main_container').mustache(template_id, data);
-                });
+            console.log(data);
+            load_template(template_url, data, template_id);
         }
     })
+}
+
+function load_template(template_url, data, template_id) {
+    $.Mustache.load('templates/' + template_url).done(function () {
+            $('#main_container').mustache(template_id, data);
+        });
 }
 
 // Bind an event to window.onhashchange that, when the hash changes, gets the
@@ -37,12 +41,14 @@ $(window).hashchange( function(){
     if(hash == '') {
         load('projects', 'list_project.html', 'list_project', {});
     } else if (parts[0] == '#project') {
-        if (parts[1]) {
-            load('achievements/' + parts[1], 'list_achievement.html', 'list_achievement', {project_slug: parts[1]});
+        if (parts[1] == 'show' && parts[2]) {
+            load('achievements/' + parts[2], 'list_achievement.html', 'list_achievement', {project_slug: parts[2]});
+        } else if (parts[1] == 'new') {
+            load_template('create_project.html', {}, 'create_project')
         }
     } else if (parts[0] == '#achievement') {
-        if (parts[1]) {
-            load('steps/' + parts[1] + '/' + parts[2], 'list_steps.html', 'list_steps');
+        if (parts[1] == 'show' && parts[2] && parts[3]) {
+            load('steps/' + parts[2] + '/' + parts[3], 'list_steps.html', 'list_steps');
         }
     }
 })
