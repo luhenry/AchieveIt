@@ -46,6 +46,8 @@ class UserAchievementsController < ApplicationController
     end
   end
 
+  protected
+
   def get_achievement_step achievement_id, level
     return AchievementStep.select('name') \
             .where('achievement_id = :achievement_id AND value <= :value', {achievement_id: achievement_id, value: level}) \
