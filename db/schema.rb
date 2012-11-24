@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124003009) do
+ActiveRecord::Schema.define(:version => 20121124212853) do
 
   create_table "achievement_steps", :force => true do |t|
     t.integer  "achievement_id"
@@ -54,6 +54,10 @@ ActiveRecord::Schema.define(:version => 20121124003009) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
     t.string   "authentication_token"
   end
 
@@ -89,7 +93,8 @@ ActiveRecord::Schema.define(:version => 20121124003009) do
     t.string   "last_sign_in_ip"
     t.string   "provider_name"
     t.string   "provider_uid"
-    t.string   "provider_token"
+    t.string   "authentication_token"
+    t.string   "slug"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

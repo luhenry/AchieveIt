@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   attr_accessible :first_name, :last_name, :email
 
   has_many :achievements, :through => :user_achievements
+  
+  acts_as_url :name, url_attribute: :slug
 
   def self.find_for_facebook_oauth(auth, signed_in_resource = nil)
     user = User.find_or_create_by_provider_name_and_provider_uid('facebook', auth.uid) do |u|
@@ -28,5 +30,9 @@ class User < ActiveRecord::Base
         user.email = data["email"]
       end
     end
+  end
+
+  def name
+    self.first_name + '-' + self.last_name
   end
 end
