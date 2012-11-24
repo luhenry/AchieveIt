@@ -6,7 +6,7 @@ class Developer < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me
-  
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :encrypted_password
+
   has_many :projects, :through => :developer_projects
 end
