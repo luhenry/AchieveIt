@@ -8,8 +8,20 @@
 </head>
 <body>
 
-<%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
-<%#= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+<% if flash[:notice] %>
+  <p class="notice"><%= flash[:notice] %></p>
+<% end %>
+
+<% if flash[:error] %>
+  <p class="error"><%= flash[:notice] %></p>
+<% end %>  
+
+<% if user_signed_in? %>
+  <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+<% else %>
+  <%= link_to "Sign in as user with Facebook", user_omniauth_authorize_path(:facebook) %>
+<% end %>
+
 <%= yield %>
 
 </body>

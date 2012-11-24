@@ -3,6 +3,11 @@ Achieveit::Application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
+  devise_scope :user do
+    get    'sign-in',  :to => 'devise/sessions#new',     :as => :new_user_session
+    delete 'sign-out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+  end
+
   devise_for :developers
 
   resources :achievement_steps
