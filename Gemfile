@@ -7,7 +7,6 @@ gem 'rails', '3.2.8'
 
 group :development, :test do
   gem "sqlite3"
-  gem 'less-rails'
 end
 
 group :production do
@@ -52,4 +51,5 @@ gem 'omniauth-facebook'
 
 gem 'stringex'
 
+gem 'less-rails'
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
