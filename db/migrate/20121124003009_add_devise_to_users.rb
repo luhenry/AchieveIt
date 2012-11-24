@@ -53,7 +53,7 @@ class AddDeviseToUsers < ActiveRecord::Migration
 
       t.remove :provider_name
       t.remove :provider_uid
-      t.remove :authentication_token
+      t.remove :provider_token
     end
 
     remove_index :users, :email
