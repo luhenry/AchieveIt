@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
 
+  layout        'admin'
   before_filter :authenticate_developer!
 
   def index
@@ -25,7 +26,6 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @project }
     end
   end
 
@@ -51,6 +51,10 @@ class ProjectsController < ApplicationController
 
   def edit
     @project = self.get_project(params[:slug], current_developer.id)
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def update

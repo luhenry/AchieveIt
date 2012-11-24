@@ -1,6 +1,7 @@
 class AchievementsController < ApplicationController
   
   before_filter :authenticate_developer!
+  layout        'admin'
 
   def index
     @project      = self.get_project(params[:project_slug], current_developer.id)
@@ -30,7 +31,6 @@ class AchievementsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @achievement }
     end
   end
 
@@ -52,6 +52,10 @@ class AchievementsController < ApplicationController
   def edit
     @project     = self.get_project(params[:project_slug], current_developer.id)
     @achievement = self.get_achievement(params[:slug], @project.id)
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def update

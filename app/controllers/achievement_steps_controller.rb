@@ -3,58 +3,85 @@ class AchievementStepsController < ApplicationController
   before_filter :authenticate_developer!
 
   def index
-    project           = self.get_project(params[:project_slug], current_developer.id)
+    @project           = self.get_project(params[:project_slug], current_developer.id)
     achievement_steps = AchievementStep.select('achievement_steps.achievement_id, achievement_steps.name, achievement_steps.slug, achievement_steps.value') \
                           .joins(:achievement) \
-                          .where('achievements.project_id = :project_id AND achievements.slug = :achievement_slug', {project_id: project.id, achievement_slug: params[:achievement_slug]})
+                          .where('achievements.project_id = :project_id AND achievements.slug = :achievement_slug', {project_id: @project.id, achievement_slug: params[:achievement_slug]})
 
     respond_to do |format|
+      format.html
       format.json { render json: achievement_steps }
     end
   end
 
   def show
-    project          = self.get_project(params[:project_slug], current_developer.id)
-    achievement_step = self.get_achievement_step(project.id, params[:achievement_slug], params[:slug])
+    @project          = self.get_project(params[:project_slug], current_developer.id)
+    @achievement_step = self.get_achievement_step(@project.id, params[:achievement_slug], params[:slug])
 
     respond_to do |format|
-      format.json { render json: achievement_step }
+      format.html
+      format.json { render json: @achievement_step }
+    end
+  end
+
+  def new
+    achievement = Achievement.find_by_achievement_slug(params[:achievement_slug])
+
+    @project          = self.get_project(params[:project_slug], current_developer.id)
+    @achievement_step = AchievementStep.new(achievement_id: achievement.id)
+
+    respond_to do |format|
+      format.html
     end
   end
 
   def create
-    project          = self.get_project(params[:project_slug], current_developer.id)
-    achievement_step = AchievementStep.new(params[:achievement_step])
+    @project          = self.get_project(params[:project_slug], current_developer.id)
+    @achievement_step = AchievementStep.new(params[:achievement_step])
 
     respond_to do |format|
-      if achievement_step.save
-        format.json { render json: achievement_step, status: :created, location: achievement_step }
+      if @achievement_step.save
+        format.html { redirect_to @achievement_step, notice: 'Achievement step was successfully created.' }
+        format.json { render json: @achievement_step, status: :created, location: @achievement_step }
       else
-        format.json { render json: achievement_step.errors, status: :unprocessable_entity }
+        format.html { render action: "new" }
+        format.json { render json: @achievement_step.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  def update
-    project          = self.get_project(params[:project_slug], current_developer.id)
-    achievement_step = self.get_achievement_step(project.id, params[:achievement_slug], params[:slug])
+  def edit
+    @project          = self.get_project(params[:project_slug], current_developer.id)
+    @achievement_step = self.get_achievement_step(@project.id, params[:achievement_slug], params[:slug])
 
     respond_to do |format|
-      if achievement_step.update_attributes(params[:achievement_step])
+      format.html
+    end
+  end
+
+  def update
+    @project          = self.get_project(params[:project_slug], current_developer.id)
+    @achievement_step = self.get_achievement_step(@project.id, params[:achievement_slug], params[:slug])
+
+    respond_to do |format|
+      if @achievement_step.update_attributes(params[:achievement_step])
+        format.html { redirect_to @achievement_step, notice: 'Achievement step was successfully updated.' }
         format.json { head :no_content }
       else
-        format.json { render json: achievement_step.errors, status: :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.json { render json: @achievement_step.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
-    project = self.get_project(params[:project_slug], current_developer.id)
+    @project = self.get_project(params[:project_slug], current_developer.id)
 
-    achievement_step = self.get_achievement_step(project.id, params[:achievement_slug], params[:slug])
-    achievement_step.destroy
+    @achievement_step = self.get_achievement_step(@project.id, params[:achievement_slug], params[:slug])
+    @achievement_step.destroy
 
     respond_to do |format|
+      format.html { redirect_to achievement_steps_url }
       format.json { head :no_content }
     end
   end
