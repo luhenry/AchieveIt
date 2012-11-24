@@ -1,78 +1,107 @@
 class AchievementStepsController < ApplicationController
-  # GET /achievement_steps
-  # GET /achievement_steps.json
+
+  before_filter :authenticate_developer!
+
   def index
-    @achievement_steps = AchievementStep.all
+    project           = self.get_project    
+    achievement_steps = AchievementStep.joins(:achievement) \
+      .where(
+        'achievements.project_id = :project_id AND achievements.slug = :achievement_slug', {
+          project_id:       project.id,
+          achievement_slug: params[:achievement_slug]
+        })
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @achievement_steps }
+      format.json { render json: achievement_steps }
     end
   end
 
-  # GET /achievement_steps/1
-  # GET /achievement_steps/1.json
   def show
-    @achievement_step = AchievementStep.find(params[:id])
+    project          = self.get_project    
+    achievement_step = AchievementStep.joins(:achievement) \
+                        .where(
+                          'achievements.project_id = :project_id AND achievements.slug = :achievement_slug AND achievement_steps.slug = :achievement_step_slug', {
+                            project_id:            project.id,
+                            achievement_slug:      params[:achievement_slug],
+                            achievement_step_slug: params[:slug]
+                          }) \
+                        .limit(1).first
+
+    raise ActionController::RoutingError.new("Step does not exist") if not achievement_step
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @achievement_step }
+      format.json { render json: achievement_step }
     end
   end
 
-  # GET /achievement_steps/new
-  # GET /achievement_steps/new.json
-  def new
-    @achievement_step = AchievementStep.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @achievement_step }
-    end
-  end
-
-  # GET /achievement_steps/1/edit
-  def edit
-    @achievement_step = AchievementStep.find(params[:id])
-  end
-
-  # POST /achievement_steps
-  # POST /achievement_steps.json
   def create
-    @achievement_step = AchievementStep.new(params[:achievement_step])
+    project          = self.get_project
+    achievement_step = AchievementStep.new(params[:achievement_step])
 
     respond_to do |format|
-      if @achievement_step.save
-        format.json { render json: @achievement_step, status: :created, location: @achievement_step }
+      if achievement_step.save
+        format.json { render json: achievement_step, status: :created, location: achievement_step }
       else
-        format.json { render json: @achievement_step.errors, status: :unprocessable_entity }
+        format.json { render json: achievement_step.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PUT /achievement_steps/1
-  # PUT /achievement_steps/1.json
   def update
-    @achievement_step = AchievementStep.find(params[:id])
+    project          = self.get_project    
+    achievement_step = AchievementStep.joins(:achievement) \
+                        .where(
+                          'achievements.project_id = :project_id AND achievements.slug = :achievement_slug AND achievement_steps.slug = :achievement_step_slug', {
+                            project_id:            project.id,
+                            achievement_slug:      params[:achievement_slug],
+                            achievement_step_slug: params[:slug]
+                          }) \
+                        .limit(1).first
 
     respond_to do |format|
-      if @achievement_step.update_attributes(params[:achievement_step])
+      if achievement_step.update_attributes(params[:achievement_step])
         format.json { head :no_content }
       else
-        format.json { render json: @achievement_step.errors, status: :unprocessable_entity }
+        format.json { render json: achievement_step.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /achievement_steps/1
-  # DELETE /achievement_steps/1.json
   def destroy
-    @achievement_step = AchievementStep.find(params[:id])
-    @achievement_step.destroy
+    project          = self.get_project
+    achievement_step = AchievementStep.joins(:achievement) \
+                        .where(
+                          'achievements.project_id = :project_id AND achievements.slug = :achievement_slug AND achievement_steps.slug = :achievement_step_slug', {
+                            project_id:            project.id,
+                            achievement_slug:      params[:achievement_slug],
+                            achievement_step_slug: params[:slug]
+                          }) \
+                        .limit(1).first
+
+    if not achievement_step
+      raise ActionController::RoutingError.new("Step does not exist")
+    else
+      achievement_step.destroy
+    end
 
     respond_to do |format|
       format.json { head :no_content }
     end
+  end
+
+  def get_project
+    project = Project.joins(:developers) \
+                .where(
+                  'projects.slug = :project_slug AND developers.id = :developer_id', {
+                    project_slug: params[:project_slug],
+                    developer_id: current_developer.id
+                  }) \
+                .limit(1).first
+
+    if not project
+      raise ActionController::RoutingError.new("Project does not exist")
+    end
+
+    return project
   end
 end

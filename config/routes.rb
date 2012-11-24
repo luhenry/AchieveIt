@@ -10,8 +10,6 @@ Achieveit::Application.routes.draw do
 
   devise_for :developers
 
-  resources :achievement_steps
-
   resources :users
 
   resources :developer_projects
@@ -20,70 +18,25 @@ Achieveit::Application.routes.draw do
 
   resources :projects
 
+  get    'steps/:project_slug/:achievement_slug(.:format)'       => 'achievement_steps#index',   :defaults => {format: 'json'}
+  get    'steps/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#show',    :defaults => {format: 'json'}
+  post   'steps/:project_slug/:achievement_slug(.:format)'       => 'achievement_steps#create',  :defaults => {format: 'json'}
+  put    'steps/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#update',  :defaults => {format: 'json'}
+  delete 'steps/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#destroy', :defaults => {format: 'json'}
+
+  get    'levels/:project_slug/:achievement_slug(.:format)'       => 'achievement_steps#index',   :defaults => {format: 'json'}
+  get    'levels/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#show',    :defaults => {format: 'json'}
+  post   'levels/:project_slug/:achievement_slug(.:format)'       => 'achievement_steps#create',  :defaults => {format: 'json'}
+  put    'levels/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#update',  :defaults => {format: 'json'}
+  delete 'levels/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#destroy', :defaults => {format: 'json'}
+
   get    'achievements/:project_slug(.:format)'       => 'achievements#index',   :defaults => {format: 'json'}
   get    'achievements/:project_slug/:slug(.:format)' => 'achievements#show',    :defaults => {format: 'json'}
   post   'achievements/:project_slug(.:format)'       => 'achievements#create',  :defaults => {format: 'json'}
   put    'achievements/:project_slug/:slug(.:format)' => 'achievements#update',  :defaults => {format: 'json'}
   delete 'achievements/:project_slug/:slug(.:format)' => 'achievements#destroy', :defaults => {format: 'json'}
 
-  get  'user-achievements/:user_id/:achievement_id(.:format)'              => 'user_achievements#show',      :defaults => {format: 'json'}
-  post 'user-achievements/:user_id/:achievement_id/inc(/:value)(.:format)' => 'user_achievements#increment', :defaults => {format: 'json', value: 1}
+  get  'user-achievements/:user_id/:achievement_id(.:format)'              => 'user_achievements#get',       :defaults => {format: 'json'}
   post 'user-achievements/:user_id/:achievement_id/set(/:value)(.:format)' => 'user_achievements#set',       :defaults => {format: 'json'}
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
-
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+  post 'user-achievements/:user_id/:achievement_id/inc(/:value)(.:format)' => 'user_achievements#increment', :defaults => {format: 'json', value: 1}
 end

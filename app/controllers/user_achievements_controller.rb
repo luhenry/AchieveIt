@@ -2,7 +2,7 @@ class UserAchievementsController < ApplicationController
   
   before_filter :authenticate_developer!
 
-  def show
+  def get
     user        = User.find(params[:user_id])
     achievement = Achievement.find(params[:achievement_id])
 
@@ -14,14 +14,12 @@ class UserAchievementsController < ApplicationController
     end
   end
 
-  def increment
+  def set
     user        = User.find(params[:user_id])
     achievement = Achievement.find(params[:achievement_id])
 
-    level = Integer(params[:value]) rescue 1
-
     user_achievement = UserAchievement.find_or_create_by_user_id_and_achievement_id(params[:user_id], params[:achievement_id])
-    user_achievement.increment(:level, level)
+    user_achievement.level = params[:value] || 1
     user_achievement.save
 
     achievement_step = self.get_achievement_step(params[:achievement_id], user_achievement.level)
@@ -31,12 +29,14 @@ class UserAchievementsController < ApplicationController
     end
   end
 
-  def set
+  def increment
     user        = User.find(params[:user_id])
     achievement = Achievement.find(params[:achievement_id])
 
+    level = Integer(params[:value]) rescue 1
+
     user_achievement = UserAchievement.find_or_create_by_user_id_and_achievement_id(params[:user_id], params[:achievement_id])
-    user_achievement.level = params[:value] || 1
+    user_achievement.increment(:level, level)
     user_achievement.save
 
     achievement_step = self.get_achievement_step(params[:achievement_id], user_achievement.level)
