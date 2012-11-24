@@ -1,10 +1,10 @@
-function load(host, json_url, template_url, template_id) {
+function load(json_url, template_url, template_id, additionnal_data) {
     // Private key do not use
     var key = '7he4NxmyZ6abHSyqPT4r';
 
     $.ajax({
         type: 'GET',
-        url: host + '/' + json_url + '?auth_token=' + key,
+        url: json_url + '?auth_token=' + key,
         statusCode: {
             401: function() {
                 location.href = 'developers/sign_in';
@@ -13,10 +13,10 @@ function load(host, json_url, template_url, template_id) {
         success: function(json_data, textStatus, jqXHR) {
             console.log(json_data);
             var data = {
-                host: host,
                 data: json_data
             }
-            $.Mustache.load(host + '/templates/' + template_url).done(function () {
+            $.extend(data, additionnal_data);
+            $.Mustache.load('templates/' + template_url).done(function () {
                     $('#main_container').mustache(template_id, data);
                 });
         }
@@ -28,8 +28,6 @@ function load(host, json_url, template_url, template_id) {
 $(window).hashchange( function(){
     var hash = location.hash;
 
-    var host = 'http://localhost:3000';
-
     var parts = hash.split('/')
     console.log(parts);
 
@@ -37,14 +35,14 @@ $(window).hashchange( function(){
     $('#main_container').empty();
 
     if(hash == '') {
-        load(host, 'projects', 'list_project.html', 'list_project');
+        load('projects', 'list_project.html', 'list_project', {});
     } else if (parts[0] == '#project') {
         if (parts[1]) {
-            load(host, 'achievements/' + parts[1], 'list_achievement.html', 'list_achievement');
+            load('achievements/' + parts[1], 'list_achievement.html', 'list_achievement', {project_slug: parts[1]});
         }
     } else if (parts[0] == '#achievement') {
         if (parts[1]) {
-            load(host, 'steps/' + parts[1], 'list_steps.html', 'list_steps');
+            load('steps/' + parts[1] + '/' + parts[2], 'list_steps.html', 'list_steps');
         }
     }
 })
