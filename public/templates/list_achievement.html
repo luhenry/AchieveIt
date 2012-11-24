@@ -11,16 +11,14 @@
 		{{#data}}
 		<tr>
 			<td>{{name}}</td>
-			<td><a href="#achievement/edit/{{project_slug}}/{{slug}}">Éditer</a></td>
-			<td><a href="#achievement/show/{{project_slug}}/{{slug}}">Détails</a></td>
+			<td><a href="#achievement/edit/{{project_slug}}/{{slug}}">Edit</a></td>
+			<td><a href="#achievement/show/{{project_slug}}/{{slug}}">Details</a></td>
 		</tr>
 		{{/data}}
 	</tbody>
-	<tfoot>
-		<tr>
-			<td></td>
-			<td><a href="#achievement/new" class="btn btn-primary">New achievement</button></td>
-		</tr>
-	</tfoot>
 </table>
+
+<div class="form-actions">
+  <a href="#achievement/new" class="btn btn-primary">New achievement</a>
+</div>
 </script>
