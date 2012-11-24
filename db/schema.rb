@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124123712) do
+ActiveRecord::Schema.define(:version => 20121124003009) do
 
   create_table "achievement_steps", :force => true do |t|
     t.integer  "achievement_id"
@@ -30,20 +30,6 @@ ActiveRecord::Schema.define(:version => 20121124123712) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  create_table "client_applications", :force => true do |t|
-    t.string   "name"
-    t.string   "url"
-    t.string   "support_url"
-    t.string   "callback_url"
-    t.string   "key",          :limit => 40
-    t.string   "secret",       :limit => 40
-    t.integer  "user_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-  end
-
-  add_index "client_applications", ["key"], :name => "index_client_applications_on_key", :unique => true
 
   create_table "developer_projects", :force => true do |t|
     t.integer  "project_id"
@@ -68,42 +54,11 @@ ActiveRecord::Schema.define(:version => 20121124123712) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
     t.string   "authentication_token"
   end
 
   add_index "developers", ["email"], :name => "index_developers_on_email", :unique => true
   add_index "developers", ["reset_password_token"], :name => "index_developers_on_reset_password_token", :unique => true
-
-  create_table "oauth_nonces", :force => true do |t|
-    t.string   "nonce"
-    t.integer  "timestamp"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "oauth_nonces", ["nonce", "timestamp"], :name => "index_oauth_nonces_on_nonce_and_timestamp", :unique => true
-
-  create_table "oauth_tokens", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "type",                  :limit => 20
-    t.integer  "client_application_id"
-    t.string   "token",                 :limit => 40
-    t.string   "secret",                :limit => 40
-    t.string   "callback_url"
-    t.string   "verifier",              :limit => 20
-    t.string   "scope"
-    t.datetime "authorized_at"
-    t.datetime "invalidated_at"
-    t.datetime "expires_at"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
-  end
-
-  add_index "oauth_tokens", ["token"], :name => "index_oauth_tokens_on_token", :unique => true
 
   create_table "projects", :force => true do |t|
     t.string   "name"
@@ -134,7 +89,7 @@ ActiveRecord::Schema.define(:version => 20121124123712) do
     t.string   "last_sign_in_ip"
     t.string   "provider_name"
     t.string   "provider_uid"
-    t.string   "authentication_token"
+    t.string   "provider_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
