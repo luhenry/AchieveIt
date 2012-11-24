@@ -66,4 +66,14 @@ Achieveit::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   config.action_mailer.default_url_options = { :host => 'api.gameup.co' }
+
+  config.action_mailer.smtp_settings = {
+    :address              => 'smtp.gmail.com',
+    :port                 => 587,
+    :domain               => 'gmail.com',
+    :user_name            => 'gameup.noreply@gmail.com',
+    :password             => 'swbelfort',
+    :authentication       => 'plain',
+    :enable_starttls_auto => true
+  }
 end
