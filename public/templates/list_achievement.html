@@ -3,14 +3,16 @@
 	<thead>
 		<tr>
 			<th>Achievement name</th>
-			<th>Details</th>
+			<th>Édition</th>
+			<th>Détails</th>
 		</tr>
 	</thead>
 	<tbody>
 		{{#data}}
 		<tr>
 			<td>{{name}}</td>
-			<td><a href="#achievement/{{project_slug}}/{{slug}}">Edit</a></td>
+			<td><a href="#achievement/edit/{{project_slug}}/{{slug}}">Edit</a></td>
+			<td><a href="#achievement/show/{{project_slug}}/{{slug}}">Details</a></td>
 		</tr>
 		{{/data}}
 	</tbody>
