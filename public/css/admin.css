@@ -1,0 +1,96 @@
+body, html
+{
+	margin: 0 !important;
+	padding: 0 !important;
+	background: #8999b2;
+	height: 100%;
+}
+
+#landing
+{
+	width: 100%;
+	height: 100%;
+	/*min-height: 800px;*/
+	background: transparent url('images/landing.jpg') no-repeat center center;
+	text-indent: -999999px;
+}
+#landing p, #landing h1
+{
+	margin: 0;
+	padding: 0;
+}
+
+#landingmain
+{
+	min-height: 800px;
+	width: 100%;
+	background: transparent url('images/bg.jpg') no-repeat top center;
+	padding-bottom: 200px;
+}
+
+#landingbtns
+{
+	padding-top: 460px;
+	padding-bottom: 20px;
+	width: 100%;
+	text-align: center;
+}
+
+.bigbtn
+{
+	width: 400px;
+	height: 240px;
+	display: inline-block;
+	text-indent: -99999px;
+}
+
+.btn-user
+{
+	text-decoration: none;
+	background: transparent url('images/btn-user-off.png') no-repeat center center;
+}
+.btn-user:hover
+{
+	background: transparent url('images/btn-user-on.png') no-repeat center center;
+}
+
+.btn-dev
+{
+	text-decoration: none;
+	background: transparent url('images/btn-dev-off.png') no-repeat center center;
+}
+.btn-dev:hover
+{
+	background: transparent url('images/btn-dev-on.png') no-repeat center center;
+}
+
+.separator
+{
+	height: 40px;
+	width: 100%;
+	background: transparent url('images/sep.png') no-repeat center center;
+}
+
+h2
+{
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 300;
+	font-size: 28px;
+	color: #111111;
+	text-shadow: 0px 1px 1px #e3e8f2;
+    filter: dropshadow(color=#e3e8f2, offx=0, offy=1);
+}
+	
+.landing-descriptor
+{
+	max-width: 880px;
+	min-width: 400px;
+	margin: auto;
+	padding: 0 20px;
+	padding-bottom: 20px;
+}
+
+.landing-descriptor p
+{
+	color: #3b3b3b;
+}
