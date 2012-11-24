@@ -3,11 +3,11 @@ function load(host, json_url, template_url, template_id) {
         type: 'GET',
         url: host + '/' + json_url,
         success: function(json_data, textStatus, jqXHR) {
+            console.log(json_data);
             var data = {
                 host: host,
                 data: json_data
             }
-            console.log(data);
             $.Mustache.load(host + '/templates/' + template_url).done(function () {
                     $('#main_container').mustache(template_id, data);
                 });
@@ -25,11 +25,14 @@ $(window).hashchange( function(){
     var parts = hash.split('/')
     console.log(parts);
 
+    // Clear main container
+    $('#main_container').empty();
+
     if(hash == '') {
         load(host, 'projects.json', 'list_project.html', 'list_project');
     } else if (parts[0] == '#project') {
         if (parts[1]) {
-            console.log(parts);
+            load(host, 'achievements/' + parts[1] + '.json', 'list_achievement.html', 'list_achievement');
         }
 
     }
