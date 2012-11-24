@@ -1,6 +1,4 @@
 Achieveit::Application.routes.draw do
-  resources :tests
-
   resources :projects
 
   root to: 'homepage#index'
@@ -20,29 +18,37 @@ Achieveit::Application.routes.draw do
 
   resources :developers
 
-  get    'projects(.:format)'       => 'projects#index',   :defaults => {format: 'json'}
-  get    'projects/:slug(.:format)' => 'projects#show',    :defaults => {format: 'json'}
-  post   'projects(.:format)'       => 'projects#create',  :defaults => {format: 'json'}
-  put    'projects/:slug(.:format)' => 'projects#update',  :defaults => {format: 'json'}
-  delete 'projects/:slug(.:format)' => 'projects#destroy', :defaults => {format: 'json'}
+  get    'projects(.:format)'            => 'projects#index'
+  get    'projects/:slug(.:format)'      => 'projects#show'
+  get    'projects/new(.:format)'        => 'projects#new'
+  post   'projects(.:format)'            => 'projects#create'
+  get    'projects/:slug/edit(.:format)' => 'projects#edit'
+  put    'projects/:slug(.:format)'      => 'projects#update'
+  delete 'projects/:slug(.:format)'      => 'projects#destroy'
 
-  get    'steps/:project_slug/:achievement_slug(.:format)'       => 'achievement_steps#index',   :defaults => {format: 'json'}
-  get    'steps/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#show',    :defaults => {format: 'json'}
-  post   'steps/:project_slug/:achievement_slug(.:format)'       => 'achievement_steps#create',  :defaults => {format: 'json'}
-  put    'steps/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#update',  :defaults => {format: 'json'}
-  delete 'steps/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#destroy', :defaults => {format: 'json'}
+  get    'steps/:project_slug/:achievement_slug(.:format)'            => 'achievement_steps#index'
+  get    'steps/:project_slug/:achievement_slug/:slug(.:format)'      => 'achievement_steps#show'
+  get    'steps/:project_slug/:achievement_slug/new(.:format)'        => 'achievement_steps#new'
+  post   'steps/:project_slug/:achievement_slug(.:format)'            => 'achievement_steps#create'
+  get    'steps/:project_slug/:achievement_slug/:slug/edit(.:format)' => 'achievement_steps#edit'
+  put    'steps/:project_slug/:achievement_slug/:slug(.:format)'      => 'achievement_steps#update'
+  delete 'steps/:project_slug/:achievement_slug/:slug(.:format)'      => 'achievement_steps#destroy'
 
-  get    'levels/:project_slug/:achievement_slug(.:format)'       => 'achievement_steps#index',   :defaults => {format: 'json'}
-  get    'levels/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#show',    :defaults => {format: 'json'}
-  post   'levels/:project_slug/:achievement_slug(.:format)'       => 'achievement_steps#create',  :defaults => {format: 'json'}
-  put    'levels/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#update',  :defaults => {format: 'json'}
-  delete 'levels/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#destroy', :defaults => {format: 'json'}
+  get    'levels/:project_slug/:achievement_slug(.:format)'            => 'achievement_steps#index'
+  get    'levels/:project_slug/:achievement_slug/:slug(.:format)'      => 'achievement_steps#show'
+  get    'levels/:project_slug/:achievement_slug/new(.:format)'        => 'achievement_steps#new'
+  post   'levels/:project_slug/:achievement_slug(.:format)'            => 'achievement_steps#create'
+  get    'levels/:project_slug/:achievement_slug/:slug/edit(.:format)' => 'achievement_steps#edit'
+  put    'levels/:project_slug/:achievement_slug/:slug(.:format)'      => 'achievement_steps#update'
+  delete 'levels/:project_slug/:achievement_slug/:slug(.:format)'      => 'achievement_steps#destroy'
 
-  get    'achievements/:project_slug(.:format)'       => 'achievements#index',   :defaults => {format: 'json'}
-  get    'achievements/:project_slug/:slug(.:format)' => 'achievements#show',    :defaults => {format: 'json'}
-  post   'achievements/:project_slug(.:format)'       => 'achievements#create',  :defaults => {format: 'json'}
-  put    'achievements/:project_slug/:slug(.:format)' => 'achievements#update',  :defaults => {format: 'json'}
-  delete 'achievements/:project_slug/:slug(.:format)' => 'achievements#destroy', :defaults => {format: 'json'}
+  get    'achievements/:project_slug(.:format)'            => 'achievements#index'
+  get    'achievements/:project_slug/:slug(.:format)'      => 'achievements#show'
+  get    'achievements/:project_slug/new(.:format)'        => 'achievements#new'
+  post   'achievements/:project_slug(.:format)'            => 'achievements#create'
+  get    'achievements/:project_slug/:slug/edit(.:format)' => 'achievements#edit'
+  put    'achievements/:project_slug/:slug(.:format)'      => 'achievements#update'
+  delete 'achievements/:project_slug/:slug(.:format)'      => 'achievements#destroy'
 
   get  'user-achievements/:user_id/:achievement_id(.:format)'              => 'user_achievements#get',       :defaults => {format: 'json'}
   post 'user-achievements/:user_id/:achievement_id/set(/:value)(.:format)' => 'user_achievements#set',       :defaults => {format: 'json'}
