@@ -10,7 +10,7 @@ Achieveit::Application.routes.draw do
 
   resources :developers
 
-  get     'me(.:format)' => 'users#me'
+  get    'me(.:format)' => 'users#me'
 
   get    'admin/projects(.:format)'            => 'projects#index'
   get    'admin/projects/:slug(.:format)'      => 'projects#show'

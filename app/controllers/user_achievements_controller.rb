@@ -13,7 +13,8 @@ class UserAchievementsController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: {
-        user_id: 
+        user_id: @user.id,
+        achievements: @user_achievements.map { |e|  }
       }}
     end
   end
