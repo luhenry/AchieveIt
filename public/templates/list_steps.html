@@ -1,14 +1,24 @@
 <script id="list_achievement" type="text/html">
 <table>
-    <tr>
-        <th>Step name</th>
-        <th>Details</th>
-    </tr>
-    {{#data}}
-    <tr>
-        <td>{{name}}</td>
-        <td><a href="admin#step/{{slug}}">Éditer</a></td>
-    </tr>
-    {{/data}}
+	<thead>
+		<tr>
+			<th>Step name</th>
+			<th>Details</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#data}}
+		<tr>
+			<td>{{name}}</td>
+			<td><a href="#step/edit/{{slug}}">Éditer</a></td>
+		</tr>
+		{{/data}}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td></td>
+			<td><a href="#step/new" class="btn btn-primary">New step</button></td>
+		</tr>
+	</tfoot>
 </table>
 </script>

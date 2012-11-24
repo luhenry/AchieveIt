@@ -1,14 +1,24 @@
 <script id="list_project" type="text/html">
 <table>
-    <tr>
-        <th>Project name</th>
-        <th>Details</th>
-    </tr>
-    {{#data}}
-    <tr>
-        <td>{{name}}</td>
-        <td><a href="admin#project/{{slug}}">Éditer</a></td>
-    </tr>
-    {{/data}}
+	<thead>
+		<tr>
+			<th>Project name</th>
+			<th>Details</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#data}}
+		<tr>
+			<td>{{name}}</td>
+			<td><a href="#project/edit/{{slug}}">Éditer</a></td>
+		</tr>
+		{{/data}}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td></td>
+			<td><a href="#project/new" class="btn btn-primary">New Project</button></td>
+		</tr>
+	</tfoot>
 </table>
 </script>
