@@ -1,7 +1,7 @@
 class AchievementsController < ApplicationController
   
-  before_filter :authenticate_developer!
   layout        'admin'
+  before_filter :authenticate_developer!
 
   def index
     @project      = self.get_project(params[:project_slug], current_developer.id)

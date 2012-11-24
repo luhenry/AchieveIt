@@ -1,5 +1,6 @@
 class AchievementStepsController < ApplicationController
 
+  layout        'admin'
   before_filter :authenticate_developer!
 
   def index
