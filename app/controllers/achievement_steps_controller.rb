@@ -3,14 +3,10 @@ class AchievementStepsController < ApplicationController
   before_filter :authenticate_developer!
 
   def index
-    project           = self.get_project    
+    project           = self.get_project(params[:project_slug], current_developer.id)
     achievement_steps = AchievementStep.select('achievement_steps.achievement_id, achievement_steps.name, achievement_steps.slug, achievement_steps.value') \
-      .joins(:achievement) \
-      .where(
-        'achievements.project_id = :project_id AND achievements.slug = :achievement_slug', {
-          project_id:       project.id,
-          achievement_slug: params[:achievement_slug]
-        })
+                          .joins(:achievement) \
+                          .where('achievements.project_id = :project_id AND achievements.slug = :achievement_slug', {project_id: project.id, achievement_slug: params[:achievement_slug]})
 
     respond_to do |format|
       format.json { render json: achievement_steps }
@@ -18,18 +14,8 @@ class AchievementStepsController < ApplicationController
   end
 
   def show
-    project          = self.get_project    
-    achievement_step = AchievementStep.select('achievement_steps.achievement_id, achievement_steps.name, achievement_steps.slug, achievement_steps.value') \
-                        .joins(:achievement) \
-                        .where(
-                          'achievements.project_id = :project_id AND achievements.slug = :achievement_slug AND achievement_steps.slug = :achievement_step_slug', {
-                            project_id:            project.id,
-                            achievement_slug:      params[:achievement_slug],
-                            achievement_step_slug: params[:slug]
-                          }) \
-                        .limit(1).first
-
-    raise ActionController::RoutingError.new("Step does not exist") if not achievement_step
+    project          = self.get_project(params[:project_slug], current_developer.id)
+    achievement_step = self.get_achievement_step(project.id, params[:achievement_slug], params[:slug])
 
     respond_to do |format|
       format.json { render json: achievement_step }
@@ -37,7 +23,7 @@ class AchievementStepsController < ApplicationController
   end
 
   def create
-    project          = self.get_project
+    project          = self.get_project(params[:project_slug], current_developer.id)
     achievement_step = AchievementStep.new(params[:achievement_step])
 
     respond_to do |format|
@@ -50,15 +36,8 @@ class AchievementStepsController < ApplicationController
   end
 
   def update
-    project          = self.get_project    
-    achievement_step = AchievementStep.joins(:achievement) \
-                        .where(
-                          'achievements.project_id = :project_id AND achievements.slug = :achievement_slug AND achievement_steps.slug = :achievement_step_slug', {
-                            project_id:            project.id,
-                            achievement_slug:      params[:achievement_slug],
-                            achievement_step_slug: params[:slug]
-                          }) \
-                        .limit(1).first
+    project          = self.get_project(params[:project_slug], current_developer.id)
+    achievement_step = self.get_achievement_step(project.id, params[:achievement_slug], params[:slug])
 
     respond_to do |format|
       if achievement_step.update_attributes(params[:achievement_step])
@@ -70,33 +49,24 @@ class AchievementStepsController < ApplicationController
   end
 
   def destroy
-    project          = self.get_project
-    achievement_step = AchievementStep.joins(:achievement) \
-                        .where(
-                          'achievements.project_id = :project_id AND achievements.slug = :achievement_slug AND achievement_steps.slug = :achievement_step_slug', {
-                            project_id:            project.id,
-                            achievement_slug:      params[:achievement_slug],
-                            achievement_step_slug: params[:slug]
-                          }) \
-                        .limit(1).first
+    project = self.get_project(params[:project_slug], current_developer.id)
 
-    if not achievement_step
-      raise ActionController::RoutingError.new("Step does not exist")
-    else
-      achievement_step.destroy
-    end
+    achievement_step = self.get_achievement_step(project.id, params[:achievement_slug], params[:slug])
+    achievement_step.destroy
 
     respond_to do |format|
       format.json { head :no_content }
     end
   end
 
-  def get_project
+  private
+
+  def get_project project_slug, developer_id
     project = Project.joins(:developers) \
                 .where(
                   'projects.slug = :project_slug AND developers.id = :developer_id', {
-                    project_slug: params[:project_slug],
-                    developer_id: current_developer.id
+                    project_slug: project_slug,
+                    developer_id: developer_id
                   }) \
                 .limit(1).first
 
@@ -105,5 +75,23 @@ class AchievementStepsController < ApplicationController
     end
 
     return project
+  end
+
+  def get_achievement_step project_id, achievement_slug, achievement_step_slug
+    achievement_step = AchievementStep.select('achievement_steps.achievement_id, achievement_steps.name, achievement_steps.slug, achievement_steps.value') \
+                        .joins(:achievement) \
+                        .where(
+                          'achievements.project_id = :project_id AND achievements.slug = :achievement_slug AND achievement_steps.slug = :achievement_step_slug', {
+                            project_id:            project_id,
+                            achievement_slug:      achievement_slug,
+                            achievement_step_slug: achievement_step_slug
+                          }) \
+                        .limit(1).first
+
+    if not achievement_step
+      raise ActionController::RoutingError.new("Step does not exist")
+    end
+
+    return achievement_step
   end
 end
