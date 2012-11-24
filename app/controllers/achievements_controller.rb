@@ -59,7 +59,7 @@ class AchievementsController < ApplicationController
     end
   end
 
-  private
+  protected
 
   def get_project project_slug, developer_id
     project = Project.joins(:developers) \
