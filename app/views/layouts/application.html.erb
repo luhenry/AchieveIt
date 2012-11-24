@@ -16,11 +16,16 @@
   <p class="error"><%= flash[:notice] %></p>
 <% end %>  
 
-<% if user_signed_in? %>
-  <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
-<% else %>
-  <%= link_to "Sign in as user with Facebook", user_omniauth_authorize_path(:facebook) %>
-<% end %>
+<p>
+  <% if user_signed_in? %>
+    <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+  <% else %>
+    <%= link_to "Sign in as user with Facebook", user_omniauth_authorize_path(:facebook) %>
+  <% end %>
+</p>
+
+<p>Developer signed <%= developer_signed_in? ? 'in' : 'out' %></p>
+
 
 <%= yield %>
 

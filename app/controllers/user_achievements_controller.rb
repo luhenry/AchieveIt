@@ -1,5 +1,6 @@
 class UserAchievementsController < ApplicationController
-  before_filter :authenticate_user!
+  
+  before_filter :authenticate_developer!
 
   def show
     user        = User.find(params[:user_id])

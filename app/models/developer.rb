@@ -8,5 +8,6 @@ class Developer < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :encrypted_password
   
+  has_many :developer_projects
   has_many :projects, :through => :developer_projects
 end

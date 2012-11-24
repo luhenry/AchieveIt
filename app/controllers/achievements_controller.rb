@@ -1,82 +1,135 @@
 class AchievementsController < ApplicationController
-  # GET /achievements
-  # GET /achievements.json
+  
+  before_filter :authenticate_developer!
+
   def index
-    @achievements = Achievement.all
+    project = Project.joins(:developers) \
+              .where(
+                'developers.id = :developer_id AND projects.id = :project_id', {
+                  developer_id: current_developer.id, 
+                  project_id:   params[:project_id]
+                }) \
+              .limit(1).first
+
+    raise ActionController::RoutingError.new("Project does not exist") if not project
+    
+    achievements = Achievement.select('achievements.id, achievements.name, achievements.slug, achievements.image') \
+                    .joins(:project) \
+                    .where(
+                      'projects.id = :project_id', {
+                        project_id: project.id
+                      }) \
+                    .to_a
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @achievements }
+      format.json { render json: achievements }
     end
   end
 
-  # GET /achievements/1
-  # GET /achievements/1.json
   def show
-    @achievement = Achievement.find(params[:id])
+    project = Project.joins(:developers) \
+              .where(
+                'developers.id = :developer_id AND projects.id = :project_id', {
+                  developer_id: current_developer.id, 
+                  project_id:   params[:project_id]
+                }) \
+              .limit(1).first
+
+    raise ActionController::RoutingError.new("Project does not exist") if not project
+    
+    achievement = Achievement.select('achievements.id, achievements.name, achievements.slug, achievements.image') \
+                    .joins(:project) \
+                    .where(
+                      'projects.id = :project_id AND achievements.id = :id', {
+                        id:         params[:achievement_id],
+                        project_id: project.id
+                      }) \
+                    .limit(1).first
+
+    raise ActionController::RoutingError.new("Achievement does not exist") if not achievement
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @achievement }
+      format.json { render json: achievement }
     end
   end
 
-  # GET /achievements/new
-  # GET /achievements/new.json
-  def new
-    @achievement = Achievement.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @achievement }
-    end
-  end
-
-  # GET /achievements/1/edit
-  def edit
-    @achievement = Achievement.find(params[:id])
-  end
-
-  # POST /achievements
-  # POST /achievements.json
   def create
-    @achievement = Achievement.new(params[:achievement])
+    raise ActionController::RoutingError.new("Project does not exist") \
+      if not Project.joins(:developers) \
+              .where(
+                'developers.id = :developer_id AND projects.id = :project_id', {
+                  developer_id: current_developer.id, 
+                  project_id:   params[:project_id]
+                }) \
+              .limit(1).first
+
+    achievement = Achievement.new(params[:achievement])
 
     respond_to do |format|
-      if @achievement.save
-        format.html { redirect_to @achievement, notice: 'Achievement was successfully created.' }
-        format.json { render json: @achievement, status: :created, location: @achievement }
+      if achievement.save
+        format.json { render json: achievement, status: :created, location: achievement }
       else
-        format.html { render action: "new" }
-        format.json { render json: @achievement.errors, status: :unprocessable_entity }
+        format.json { render json: achievement.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PUT /achievements/1
-  # PUT /achievements/1.json
   def update
-    @achievement = Achievement.find(params[:id])
+    project = Project.joins(:developers) \
+              .where(
+                'developers.id = :developer_id AND projects.id = :project_id', {
+                  developer_id: current_developer.id, 
+                  project_id:   params[:project_id]
+                }) \
+              .limit(1).first
+
+    raise ActionController::RoutingError.new("Project does not exist") if not project
+
+    achievement = Achievement.joins(:project) \
+                    .where(
+                      'projects.id = :project_id AND achievements.id = :id', {
+                        id:         params[:achievement_id],
+                        project_id: project.id
+                      }) \
+                    .limit(1).first
+
+    raise ActionController::RoutingError.new("Achievement does not exist") if not achievement
 
     respond_to do |format|
-      if @achievement.update_attributes(params[:achievement])
-        format.html { redirect_to @achievement, notice: 'Achievement was successfully updated.' }
+      if achievement.update_attributes(params[:achievement])
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @achievement.errors, status: :unprocessable_entity }
+        format.json { render json: achievement.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /achievements/1
-  # DELETE /achievements/1.json
   def destroy
-    @achievement = Achievement.find(params[:id])
-    @achievement.destroy
+    project = Project.joins(:developers) \
+              .where(
+                'developers.id = :developer_id AND projects.id = :project_id', {
+                  developer_id: current_developer.id, 
+                  project_id:   params[:project_id]
+                }) \
+              .limit(1).first
+
+    raise ActionController::RoutingError.new("Project does not exist") if not project
+
+    achievement = Achievement.joins(:project) \
+                    .where(
+                      'projects.id = :project_id AND achievements.id = :id', {
+                        id:         params[:achievement_id],
+                        project_id: project.id
+                      }) \
+                    .limit(1).first
+
+    if not achievement
+      raise ActionController::RoutingError.new("Achievement does not exist")
+    else
+      achievement.destroy
+    end
 
     respond_to do |format|
-      format.html { redirect_to achievements_url }
       format.json { head :no_content }
     end
   end
