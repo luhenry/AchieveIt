@@ -1,28 +1,23 @@
 class ProjectsController < ApplicationController
+
   before_filter :authenticate_developer!
 
-  # GET /projects
-  # GET /projects.json
   def index
-    projects = Project.joins(:developers).where('developers.id = :id', {id: current_developer.id})
+    projects = Project.select('projects.name, projects.slug').joins(:developers).where('developers.id = :id', {id: current_developer.id})
 
     respond_to do |format|
       format.json { render json: projects }
     end
   end
 
-  # GET /projects/1
-  # GET /projects/1.json
   def show
-    project = Project.joins(:developers).where('developers.id = :developer_id AND projects.id = :project_id', {developer_id: current_developer.id, id: params[:id]})
+    project = self.get_project(params[:slug], current_developer.id)
 
     respond_to do |format|
       format.json { render json: project }
     end
   end
 
-  # POST /projects
-  # POST /projects.json
   def create
     project = Project.new(params[:project])
 
@@ -41,10 +36,8 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # PUT /projects/1
-  # PUT /projects/1.json
   def update
-    project = Project.joins(:developers).where('developers.id = :developer_id AND projects.id = :project_id', {developer_id: current_developer.id, id: params[:id]})
+    project = self.get_project(params[:slug], current_developer.id)
 
     respond_to do |format|
       if project.update_attributes(params[:project])
@@ -55,10 +48,8 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # DELETE /projects/1
-  # DELETE /projects/1.json
   def destroy
-    project = Project.joins(:developers).where('developers.id = :developer_id AND projects.id = :project_id', {developer_id: current_developer.id, id: params[:id]})
+    project = self.get_project(params[:slug], current_developer.id)
 
     respond_to do |format|
       if project.destroy
@@ -67,5 +58,24 @@ class ProjectsController < ApplicationController
         format.json { render json: project.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  protected 
+
+  def get_project project_slug, developer_id
+    project = Project.select('projects.name, projects.slug') \
+                .joins(:developers) \
+                .where(
+                  'projects.slug = :project_slug AND developers.id = :developer_id', {
+                    project_slug: project_slug,
+                    developer_id: developer_id
+                  }) \
+                .limit(1).first
+
+    if not project
+      raise ActionController::RoutingError.new("Project does not exist")
+    end
+
+    return project
   end
 end

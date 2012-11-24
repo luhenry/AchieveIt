@@ -8,7 +8,7 @@ Achieveit::Application.routes.draw do
     delete 'sign-out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
   end
 
-  devise_for :developers
+  devise_for :developers, :controllers => {}
 
   resources :users
 
@@ -16,7 +16,12 @@ Achieveit::Application.routes.draw do
 
   resources :developers
 
-  resources :projects
+
+  get    'projects(.:format)'       => 'projects#index',   :defaults => {format: 'json'}
+  get    'projects/:slug(.:format)' => 'projects#show',    :defaults => {format: 'json'}
+  post   'projects(.:format)'       => 'projects#create',  :defaults => {format: 'json'}
+  put    'projects/:slug(.:format)' => 'projects#update',  :defaults => {format: 'json'}
+  delete 'projects/:slug(.:format)' => 'projects#destroy', :defaults => {format: 'json'}
 
   get    'steps/:project_slug/:achievement_slug(.:format)'       => 'achievement_steps#index',   :defaults => {format: 'json'}
   get    'steps/:project_slug/:achievement_slug/:slug(.:format)' => 'achievement_steps#show',    :defaults => {format: 'json'}
