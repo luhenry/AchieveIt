@@ -20,11 +20,11 @@ Achieveit::Application.routes.draw do
 
   resources :projects
 
-  get    'achievements/:project_id(.:format)'     => 'achievements#index',   :defaults => {format: 'json'}
-  get    'achievements/:project_id/:id(.:format)' => 'achievements#show',    :defaults => {format: 'json'}
-  post   'achievements/:project_id(.:format)'     => 'achievements#create',  :defaults => {format: 'json'}
-  put    'achievements/:project_id/:id(.:format)' => 'achievements#update',  :defaults => {format: 'json'}
-  delete 'achievements/:project_id/:id(.:format)' => 'achievements#destroy', :defaults => {format: 'json'}
+  get    'achievements/:project_slug(.:format)'       => 'achievements#index',   :defaults => {format: 'json'}
+  get    'achievements/:project_slug/:slug(.:format)' => 'achievements#show',    :defaults => {format: 'json'}
+  post   'achievements/:project_slug(.:format)'       => 'achievements#create',  :defaults => {format: 'json'}
+  put    'achievements/:project_slug/:slug(.:format)' => 'achievements#update',  :defaults => {format: 'json'}
+  delete 'achievements/:project_slug/:slug(.:format)' => 'achievements#destroy', :defaults => {format: 'json'}
 
   get  'user-achievements/:user_id/:achievement_id(.:format)'              => 'user_achievements#show',      :defaults => {format: 'json'}
   post 'user-achievements/:user_id/:achievement_id/inc(/:value)(.:format)' => 'user_achievements#increment', :defaults => {format: 'json', value: 1}

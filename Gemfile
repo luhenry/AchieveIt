@@ -51,3 +51,5 @@ gem 'omniauth-facebook'
 
 gem 'rest-client'
 gem 'nokogiri'
+
+gem 'stringex'

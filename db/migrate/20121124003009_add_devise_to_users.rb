@@ -15,6 +15,7 @@ class AddDeviseToUsers < ActiveRecord::Migration
 
       t.string :provider_name
       t.string :provider_uid
+      t.string :provider_token
 
       ## Confirmable
       # t.string   :confirmation_token
@@ -28,7 +29,7 @@ class AddDeviseToUsers < ActiveRecord::Migration
       # t.datetime :locked_at
 
       ## Token authenticatable
-      t.string :authentication_token
+      # t.string :authentication_token
 
 
       # Uncomment below if timestamps were not included in your original model.

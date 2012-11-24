@@ -1,8 +1,10 @@
 class Achievement < ActiveRecord::Base
-  attr_accessible :image, :name, :slug, :project_id
+  attr_accessible :image, :name, :project_id
 
   has_many :achievement_steps
   has_many :users, :through => :user_achievements
 
   belongs_to :project
+
+  acts_as_url :name, url_attribute: :slug
 end

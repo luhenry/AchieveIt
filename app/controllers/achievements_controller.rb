@@ -5,9 +5,9 @@ class AchievementsController < ApplicationController
   def index
     project = Project.joins(:developers) \
               .where(
-                'developers.id = :developer_id AND projects.id = :project_id', {
+                'developers.id = :developer_id AND projects.slug = :project_slug', {
                   developer_id: current_developer.id, 
-                  project_id:   params[:project_id]
+                  project_slug: params[:project_slug]
                 }) \
               .limit(1).first
 
@@ -29,9 +29,9 @@ class AchievementsController < ApplicationController
   def show
     project = Project.joins(:developers) \
               .where(
-                'developers.id = :developer_id AND projects.id = :project_id', {
+                'developers.id = :developer_id AND projects.slug = :project_slug', {
                   developer_id: current_developer.id, 
-                  project_id:   params[:project_id]
+                  project_slug: params[:project_slug]
                 }) \
               .limit(1).first
 
@@ -40,8 +40,8 @@ class AchievementsController < ApplicationController
     achievement = Achievement.select('achievements.id, achievements.name, achievements.slug, achievements.image') \
                     .joins(:project) \
                     .where(
-                      'projects.id = :project_id AND achievements.id = :id', {
-                        id:         params[:achievement_id],
+                      'projects.id = :project_id AND achievements.slug = :slug', {
+                        slug:       params[:slug],
                         project_id: project.id
                       }) \
                     .limit(1).first
@@ -57,9 +57,9 @@ class AchievementsController < ApplicationController
     raise ActionController::RoutingError.new("Project does not exist") \
       if not Project.joins(:developers) \
               .where(
-                'developers.id = :developer_id AND projects.id = :project_id', {
+                'developers.id = :developer_id AND projects.slug = :project_slug', {
                   developer_id: current_developer.id, 
-                  project_id:   params[:project_id]
+                  project_slug: params[:project_slug]
                 }) \
               .limit(1).first
 
@@ -77,9 +77,9 @@ class AchievementsController < ApplicationController
   def update
     project = Project.joins(:developers) \
               .where(
-                'developers.id = :developer_id AND projects.id = :project_id', {
+                'developers.id = :developer_id AND projects.slug = :project_slug', {
                   developer_id: current_developer.id, 
-                  project_id:   params[:project_id]
+                  project_slug: params[:project_slug]
                 }) \
               .limit(1).first
 
@@ -87,8 +87,8 @@ class AchievementsController < ApplicationController
 
     achievement = Achievement.joins(:project) \
                     .where(
-                      'projects.id = :project_id AND achievements.id = :id', {
-                        id:         params[:achievement_id],
+                      'projects.id = :project_id AND achievements.slug = :slug', {
+                        slug:       params[:slug],
                         project_id: project.id
                       }) \
                     .limit(1).first
@@ -107,9 +107,9 @@ class AchievementsController < ApplicationController
   def destroy
     project = Project.joins(:developers) \
               .where(
-                'developers.id = :developer_id AND projects.id = :project_id', {
+                'developers.id = :developer_id AND projects.slug = :project_slug', {
                   developer_id: current_developer.id, 
-                  project_id:   params[:project_id]
+                  project_slug:   params[:project_slug]
                 }) \
               .limit(1).first
 
@@ -117,8 +117,8 @@ class AchievementsController < ApplicationController
 
     achievement = Achievement.joins(:project) \
                     .where(
-                      'projects.id = :project_id AND achievements.id = :id', {
-                        id:         params[:achievement_id],
+                      'projects.id = :project_id AND achievements.slug = :slug', {
+                        slug:       params[:slug],
                         project_id: project.id
                       }) \
                     .limit(1).first

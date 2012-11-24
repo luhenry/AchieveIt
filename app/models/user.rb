@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
       u.email      = auth.info.email
     end
 
-    user.authentication_token = auth.credentials.token
+    user.provider_token = auth.credentials.token
     user.save
 
     return user
