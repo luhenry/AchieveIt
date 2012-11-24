@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def me
     respond_to do |format|
       format.html
-      format.json { render: current_user }
+      format.json { render json: current_user }
     end
   end
 end
