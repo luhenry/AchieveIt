@@ -2,7 +2,11 @@ function load(host, json_url, template_url, template_id) {
     $.ajax({
         type: 'GET',
         url: host + '/' + json_url,
-        success: function(data, textStatus, jqXHR) {
+        success: function(json_data, textStatus, jqXHR) {
+            var data = {
+                host: host,
+                data: json_data
+            }
             console.log(data);
             $.Mustache.load(host + '/templates/' + template_url).done(function () {
                     $('#main_container').mustache(template_id, data);
@@ -18,14 +22,17 @@ $(window).hashchange( function(){
 
     var host = 'http://localhost:3000';
 
+    var parts = hash.split('/')
+    console.log(parts);
+
     if(hash == '') {
         load(host, 'projects.json', 'list_project.html', 'list_project');
-    } else {
+    } else if (parts[0] == '#project') {
+        if (parts[1]) {
+            console.log(parts);
+        }
 
     }
-
-    // Set the page title based on the hash.
-    document.title = 'The hash is ' + ( hash.replace( /^#/, '' ) || 'blank' ) + '.';
 })
 
 // Since the event is only triggered when the hash changes, we need to trigger

@@ -4,11 +4,11 @@
         <th>Project name</th>
         <th>Details</th>
     </tr>
-    {{#project}}
+    {{#data}}
     <tr>
         <td>{{name}}</td>
-        <td>{{host}}/admin#project/{{slug}}</td>
+        <td><a href="{{host}}/admin#project/{{slug}}">Éditer</a></td>
     </tr>
-    {{/project}}
+    {{/data}}
 </table>
 </script>
