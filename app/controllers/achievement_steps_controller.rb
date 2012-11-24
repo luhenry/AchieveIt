@@ -4,7 +4,8 @@ class AchievementStepsController < ApplicationController
 
   def index
     project           = self.get_project    
-    achievement_steps = AchievementStep.joins(:achievement) \
+    achievement_steps = AchievementStep.select('achievement_steps.achievement_id, achievement_steps.name, achievement_steps.slug, achievement_steps.value') \
+      .joins(:achievement) \
       .where(
         'achievements.project_id = :project_id AND achievements.slug = :achievement_slug', {
           project_id:       project.id,
@@ -18,7 +19,8 @@ class AchievementStepsController < ApplicationController
 
   def show
     project          = self.get_project    
-    achievement_step = AchievementStep.joins(:achievement) \
+    achievement_step = AchievementStep.select('achievement_steps.achievement_id, achievement_steps.name, achievement_steps.slug, achievement_steps.value') \
+                        .joins(:achievement) \
                         .where(
                           'achievements.project_id = :project_id AND achievements.slug = :achievement_slug AND achievement_steps.slug = :achievement_step_slug', {
                             project_id:            project.id,

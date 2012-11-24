@@ -3,16 +3,7 @@ class AchievementsController < ApplicationController
   before_filter :authenticate_developer!
 
   def index
-    project = Project.joins(:developers) \
-              .where(
-                'developers.id = :developer_id AND projects.slug = :project_slug', {
-                  developer_id: current_developer.id, 
-                  project_slug: params[:project_slug]
-                }) \
-              .limit(1).first
-
-    raise ActionController::RoutingError.new("Project does not exist") if not project
-    
+    project     = self.get_project
     achievements = Achievement.select('achievements.id, achievements.name, achievements.slug, achievements.image') \
                     .joins(:project) \
                     .where(
@@ -27,16 +18,7 @@ class AchievementsController < ApplicationController
   end
 
   def show
-    project = Project.joins(:developers) \
-              .where(
-                'developers.id = :developer_id AND projects.slug = :project_slug', {
-                  developer_id: current_developer.id, 
-                  project_slug: params[:project_slug]
-                }) \
-              .limit(1).first
-
-    raise ActionController::RoutingError.new("Project does not exist") if not project
-    
+    project     = self.get_project
     achievement = Achievement.select('achievements.id, achievements.name, achievements.slug, achievements.image') \
                     .joins(:project) \
                     .where(
@@ -54,15 +36,7 @@ class AchievementsController < ApplicationController
   end
 
   def create
-    raise ActionController::RoutingError.new("Project does not exist") \
-      if not Project.joins(:developers) \
-              .where(
-                'developers.id = :developer_id AND projects.slug = :project_slug', {
-                  developer_id: current_developer.id, 
-                  project_slug: params[:project_slug]
-                }) \
-              .limit(1).first
-
+    project     = self.get_project
     achievement = Achievement.new(params[:achievement])
 
     respond_to do |format|
@@ -75,16 +49,7 @@ class AchievementsController < ApplicationController
   end
 
   def update
-    project = Project.joins(:developers) \
-              .where(
-                'developers.id = :developer_id AND projects.slug = :project_slug', {
-                  developer_id: current_developer.id, 
-                  project_slug: params[:project_slug]
-                }) \
-              .limit(1).first
-
-    raise ActionController::RoutingError.new("Project does not exist") if not project
-
+    project     = self.get_project
     achievement = Achievement.joins(:project) \
                     .where(
                       'projects.id = :project_id AND achievements.slug = :slug', {
@@ -105,16 +70,7 @@ class AchievementsController < ApplicationController
   end
 
   def destroy
-    project = Project.joins(:developers) \
-              .where(
-                'developers.id = :developer_id AND projects.slug = :project_slug', {
-                  developer_id: current_developer.id, 
-                  project_slug:   params[:project_slug]
-                }) \
-              .limit(1).first
-
-    raise ActionController::RoutingError.new("Project does not exist") if not project
-
+    project     = self.get_project
     achievement = Achievement.joins(:project) \
                     .where(
                       'projects.id = :project_id AND achievements.slug = :slug', {
@@ -132,5 +88,21 @@ class AchievementsController < ApplicationController
     respond_to do |format|
       format.json { head :no_content }
     end
+  end
+
+  def get_project
+    project = Project.joins(:developers) \
+                .where(
+                  'projects.slug = :project_slug AND developers.id = :developer_id', {
+                    project_slug: params[:project_slug],
+                    developer_id: current_developer.id
+                  }) \
+                .limit(1).first
+
+    if not project
+      raise ActionController::RoutingError.new("Project does not exist")
+    end
+
+    return project
   end
 end
