@@ -45,15 +45,15 @@ class AddDeviseToUsers < ActiveRecord::Migration
   def self.down
     change_table(:users) do |t|
       t.remove :remember_created_at
-      t.integer  :sign_in_count, :default => 0
-      t.datetime :current_sign_in_at
-      t.datetime :last_sign_in_at
-      t.string   :current_sign_in_ip
-      t.string   :last_sign_in_ip
+      t.remove :sign_in_count
+      t.remove :current_sign_in_at
+      t.remove :last_sign_in_at
+      t.remove :current_sign_in_ip
+      t.remove :last_sign_in_ip
 
-      t.string :provider_name
-      t.string :provider_uid
-      t.string :authentication_token
+      t.remove :provider_name
+      t.remove :provider_uid
+      t.remove :authentication_token
     end
 
     remove_index :users, :email
