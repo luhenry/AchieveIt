@@ -3,22 +3,43 @@ class UserAchievementsController < ApplicationController
   before_filter :authenticate_developer!
 
   before_filter do |controller|
-    User.find(params[:user_id])
-    Achievement.find(params[:achievement_id])
+    @user = User.find(params[:user_id])
   end
 
-  def get
-    user_achievement = UserAchievement.select('achievement_id, user_id, level').where(user_id: params[:user_id], achievement_id: params[:achievement_id]).first
-    achievement_step = self.get_achievement_step(params[:achievement_id], user_achievement.level)
+  def get_user
+    @user_achievements = UserAchievement.find_by_user_id(@user.id)
+    @achievement_steps = AchievementStep.where(achievement_id: @user_achievements.map { |e| e.achievement_id })
 
     respond_to do |format|
-      format.json { render json: {user_id: user_achievement.user_id, achievement_id: user_achievement.achievement_id, level: user_achievement.level, step: achievement_step.name} }
+      format.html
+      format.json { render json: {
+        user_id: 
+      }}
+    end
+  end
+
+  def get_user_achievement
+    @achievement      = Achievement.find_by_slug(params[:achievement_slug])
+    @user_achievement = UserAchievement.find_by_achievement_id(@achievement.id)
+    @achievement_step = self.get_achievement_step(@achievement.id, user_achievement.level)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: {
+        user_id:          @user.id, 
+        achievement_slug: @achievement.slug, 
+        level:            @user_achievement.level, 
+        step:             @achievement_step ? @achievement_step.name : nil
+      }}
     end
   end
 
   def set
-    level            = Integer(params[:value]) rescue 1
-    user_achievement = UserAchievement.find_or_create_by_user_id_and_achievement_id(params[:user_id], params[:achievement_id])
+    level = Integer(params[:value]) rescue 1
+
+    @achievement      = Achievement.find_by_slug(params[:achievement_slug])
+    @user_achievement = UserAchievement.find_by_achievement_id(@achievement.id)
+    @achievement_step = self.get_achievement_step(@achievement.id, user_achievement.level)
     
     user_achievement.level = level
     user_achievement.save
@@ -26,13 +47,22 @@ class UserAchievementsController < ApplicationController
     achievement_step = self.get_achievement_step(params[:achievement_id], user_achievement.level)
 
     respond_to do |format|
-      format.json { render json: {message: 'success', user_id: user_achievement.user_id, achievement_id: user_achievement.achievement_id, level: user_achievement.level, step: achievement_step ? achievement_step.name : nil}}
+      format.json { render json: {
+        message:        'success', 
+        user_id:        @user.id, 
+        achievement_id: @achievement.slug, 
+        level:          @user_achievement.level, 
+        step:           @achievement_step ? @achievement_step.name : nil
+      }}
     end
   end
 
   def increment
-    level            = Integer(params[:value]) rescue 1
-    user_achievement = UserAchievement.find_or_create_by_user_id_and_achievement_id(params[:user_id], params[:achievement_id])
+    level = Integer(params[:value]) rescue 1
+
+    @achievement      = Achievement.find_by_slug(params[:achievement_slug])
+    @user_achievement = UserAchievement.find_by_achievement_id(@achievement.id)
+    @achievement_step = self.get_achievement_step(@achievement.id, user_achievement.level)
 
     user_achievement.increment(:level, level)
     user_achievement.save
@@ -40,7 +70,13 @@ class UserAchievementsController < ApplicationController
     achievement_step = self.get_achievement_step(params[:achievement_id], user_achievement.level)
 
     respond_to do |format|
-      format.json { render json: {message: 'success', user_id: user_achievement.user_id, achievement_id: user_achievement.achievement_id, level: user_achievement.level, step: achievement_step ? achievement_step.name : nil}}
+      format.json { render json: {
+        message:        'success', 
+        user_id:        @user.id, 
+        achievement_id: @achievement.slug, 
+        level:          @user_achievement.level, 
+        step:           @achievement_step ? @achievement_step.name : nil
+      }}
     end
   end
 
