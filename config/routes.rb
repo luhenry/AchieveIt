@@ -1,6 +1,4 @@
 Achieveit::Application.routes.draw do
-  resources :projects
-
   root to: 'homepage#index'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
