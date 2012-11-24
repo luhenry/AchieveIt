@@ -1,0 +1,14 @@
+<script id="list_project" type="text/html">
+<table>
+    <tr>
+        <th>Project name</th>
+        <th>Details</th>
+    </tr>
+    {{#data}}
+    <tr>
+        <td>{{name}}</td>
+        <td><a href="{{host}}/admin#project/{{slug}}">Éditer</a></td>
+    </tr>
+    {{/data}}
+</table>
+</script>
