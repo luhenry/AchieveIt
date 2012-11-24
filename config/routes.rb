@@ -1,4 +1,10 @@
 Achieveit::Application.routes.draw do
+  root to: 'homepage#index'
+
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
+  devise_for :developers
+
   resources :achievement_steps
 
   resources :users
@@ -11,9 +17,9 @@ Achieveit::Application.routes.draw do
 
   resources :achievements
 
-  get  'user-achievements/:user_id/:achievement_id(.:format)'     => 'user_achievements#show',      :defaults => {format: 'json'}
-  post 'user-achievements/:user_id/:achievement_id/inc(.:format)' => 'user_achievements#increment', :defaults => {format: 'json'}
-  post 'user-achievements/:user_id/:achievement_id/set(.:format)' => 'user_achievements#set',       :defaults => {format: 'json'}
+  get  'user-achievements/:user_id/:achievement_id(.:format)'              => 'user_achievements#show',      :defaults => {format: 'json'}
+  post 'user-achievements/:user_id/:achievement_id/inc(/:value)(.:format)' => 'user_achievements#increment', :defaults => {format: 'json', value: 1}
+  post 'user-achievements/:user_id/:achievement_id/set(/:value)(.:format)' => 'user_achievements#set',       :defaults => {format: 'json'}
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

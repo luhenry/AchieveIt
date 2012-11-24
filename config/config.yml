@@ -3,12 +3,12 @@ all: &all
 
 production:
   facebook:
-    app_id: 318629824886780
-    app_secret: b4e4c91df99b6990b78ba04ee9d53dd3
+    app_id: 416190301783292
+    app_secret: 956c9b2d4a79d1972381fca2c786bfb9
   <<: *all
 
 development:
   facebook:
-    app_id: 442490979108624
-    app_secret: c8305f5b5a09411b7ed343d87f376bbb
+    app_id: 120016188157904
+    app_secret: a9b6692e8ca142306304df5cca3d3e29
   <<: *all
