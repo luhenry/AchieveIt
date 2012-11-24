@@ -1,4 +1,6 @@
 Achieveit::Application.routes.draw do
+  resources :projects
+
   root to: 'homepage#index'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
@@ -10,13 +12,13 @@ Achieveit::Application.routes.draw do
 
   resources :developers
 
-  get    'admin/projects(.:format)'            => 'projects#index'
-  get    'admin/projects/:slug(.:format)'      => 'projects#show'
-  get    'admin/projects/new(.:format)'        => 'projects#new'
-  post   'admin/projects(.:format)'            => 'projects#create'
-  get    'admin/projects/:slug/edit(.:format)' => 'projects#edit'
-  put    'admin/projects/:slug(.:format)'      => 'projects#update'
-  delete 'admin/projects/:slug(.:format)'      => 'projects#destroy'
+  # get    'admin/projects(.:format)'            => 'projects#index'
+  # get    'admin/projects/:slug(.:format)'      => 'projects#show'
+  # get    'admin/projects/new(.:format)'        => 'projects#new'
+  # post   'admin/projects(.:format)'            => 'projects#create'
+  # get    'admin/projects/:slug/edit(.:format)' => 'projects#edit'
+  # put    'admin/projects/:slug(.:format)'      => 'projects#update'
+  # delete 'admin/projects/:slug(.:format)'      => 'projects#destroy'
 
   get    'admin/steps/:project_slug/:achievement_slug(.:format)'            => 'achievement_steps#index'
   get    'admin/steps/:project_slug/:achievement_slug/:slug(.:format)'      => 'achievement_steps#show'
