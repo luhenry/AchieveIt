@@ -1,7 +1,15 @@
 function load(host, json_url, template_url, template_id) {
+    // Private key do not use
+    var key = '7he4NxmyZ6abHSyqPT4r';
+
     $.ajax({
         type: 'GET',
-        url: host + '/' + json_url,
+        url: host + '/' + json_url + '?auth_token=' + key,
+        statusCode: {
+            401: function() {
+                location.href = 'developers/sign_in';
+            }
+        },
         success: function(json_data, textStatus, jqXHR) {
             console.log(json_data);
             var data = {
@@ -29,12 +37,15 @@ $(window).hashchange( function(){
     $('#main_container').empty();
 
     if(hash == '') {
-        load(host, 'projects.json', 'list_project.html', 'list_project');
+        load(host, 'projects', 'list_project.html', 'list_project');
     } else if (parts[0] == '#project') {
         if (parts[1]) {
-            load(host, 'achievements/' + parts[1] + '.json', 'list_achievement.html', 'list_achievement');
+            load(host, 'achievements/' + parts[1], 'list_achievement.html', 'list_achievement');
         }
-
+    } else if (parts[0] == '#achievement') {
+        if (parts[1]) {
+            load(host, 'steps/' + parts[1], 'list_steps.html', 'list_steps');
+        }
     }
 })
 
