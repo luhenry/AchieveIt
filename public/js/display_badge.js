@@ -46,7 +46,7 @@
 
     function show_badge(project_slug, achievement_slug)
     {
-        request('api.gameup.co/level/' + project_slug +
+        request('http://api.gameup.co/level/' + project_slug +
             '/' + achievement_slug, 'GET',
             function (req) {
                 console.log(req);
