@@ -46,7 +46,7 @@
 
     function show_badge(project_slug, achievement_slug)
     {
-        request('http://ec2-54-247-86-73.eu-west-1.compute.amazonaws.com/level/' + project_slug +
+        request('api.gameup.co/level/' + project_slug +
             '/' + achievement_slug, 'GET',
             function (req) {
                 console.log(req);
