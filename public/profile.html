@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>BKcore - GameUP</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/custom.css">
+		<link href='http://fonts.googleapis.com/css?family=Quicksand:300' rel='stylesheet' type='text/css'>
+
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+		<div id="profile-main">
+			<a id="profile-logo" href="/">GameUP</a>
+			<div id="profile-header">
+				<img id="profile-pic" src="css/images/avatar.jpg" style="background: white" width="208" height="208">
+				<span id="profile-nick">BKcore</span>
+				<span id="profile-sub">I'm a French computer science student @utbm_fr since late '08. I'm also a freelance developer, 3D enthousiast and photographer.</span> 
+			</div>
+			<div class="clearfix"></div>
+			<div id="profile-badges">
+				<div class="badge-line">
+					<a class="badge badge-bronze1"></a>
+					<a class="badge badge-silver1"></a>
+					<a class="badge badge-silver2"></a>
+					<a class="badge badge-bronze1"></a>
+					<a class="badge badge-silver1"></a>
+					<a class="badge badge-gold1"></a>
+					<a class="badge badge-silver2"></a>
+				</div>
+				<div class="badge-line">
+					<a class="badge badge-silver2"></a>
+					<a class="badge badge-silver1"></a>
+					<a class="badge badge-gold1"></a>
+					<a class="badge badge-bronze1"></a>
+				</div>
+			</div>
+		<div class="hidden">
+			<pre id="tip-badge1" class="tip">GameUP ranking</pre>
+			<pre id="tip-badge2" class="tip">Optymo traveler</pre>
+			<pre id="tip-badge3" class="tip">Optymo time</pre>
+			<pre id="tip-badge4" class="tip">HexGL Top10</pre>
+			<pre id="tip-badge5" class="tip">Top speed</pre>
+			<pre id="tip-badge6" class="tip">Optymo traveler</pre>
+			<pre id="tip-badge7" class="tip">Optymo traveler</pre>
+			<pre id="tip-badge8" class="tip">Optymo traveler</pre>
+			<pre id="tip-badge9" class="tip">Optymo traveler</pre>
+			<pre id="tip-badge10" class="tip">Optymo traveler</pre>
+			<pre id="tip-badge11" class="tip">Optymo traveler</pre>
+		</div>
+		</div>
+
+		<script src="js/jquery.min.js"></script>
+		<script src="js/tip.js"></script>
+		
+		<script>
+			$(function(){
+				$('a[href^=#]').click(function()
+				{
+					var target = $(this).attr('href');
+					if ($(target).length) {
+						$('html,body').stop().animate({
+							scrollTop: $(target).offset().top
+						}, 800);
+						return false;
+					}
+				});
+
+				$('.badge').each(function(i){
+					if($('#tip-badge'+(i+1)).size() == 0) return;
+					$(this).bubbletip($('#tip-badge'+(i+1)),{
+						delayHide: 200,
+						offsetTop: 26,
+						animationDuration: 200
+					});
+				});
+			});
+		</script>
+    </body>
+</html>

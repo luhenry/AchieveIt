@@ -94,3 +94,235 @@ h2
 {
 	color: #3b3b3b;
 }
+
+#profile-main
+{
+	padding-top: 40px;
+	display: block;
+	margin: auto;
+	min-height: 800px;
+	background: transparent url('images/profile-bg.jpg') no-repeat top center;
+	text-align: left;
+	clear: both;
+	vertical-align: top;
+	width: 990px;
+}
+
+#profile-logo
+{
+	display: block;
+	background: transparent url('images/logo.png') no-repeat top center;
+	text-indent: -999999px;
+	width: 200px;
+	height: 246px;
+	float: left;
+	margin-left: 70px;
+}
+
+#profile-header
+{
+	display: block;
+	width: 690px;
+	height: 246px;
+	background: transparent url('images/head.png') no-repeat top left;
+	position: relative;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	text-align: left;
+	float: left;
+}
+
+#profile-pic
+{
+	top: 14px;
+	left: 27px;
+	position: absolute;
+	display: block;
+	height: 208px;
+	width: 208px;
+	border: 1px solid #fff;
+}
+
+#profile-nick
+{
+	position: absolute;
+	display: block;
+	left: 270px;
+	top: 32px;
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 300;
+	font-size: 36px;
+	text-shadow: 0px 1px 1px #e3e8f2;
+    filter: dropshadow(color=#e3e8f2, offx=0, offy=1);
+}
+
+#profile-sub
+{
+	position: absolute;
+	display: block;
+	left: 270px;
+	top: 96px;
+	color: #3b3b3b;
+	font-size: 14px;
+	padding-right: 60px;
+}
+
+#profile-badges
+{
+	margin-top: 20px;
+	text-align: left;
+}
+
+#profile-badges h2
+{
+	margin-left: 40px;
+}
+
+.badge-line
+{
+	width: 990px;
+	height: 160px;
+	background: transparent url('images/shelf.png') no-repeat bottom center;
+	text-indent: 36px;
+
+}
+
+pre.tip
+{
+	margin: 0px;
+	padding: 0;
+	font-size: 18px;
+	width: 160px;
+	text-align: center;
+	height: 26px !important;
+	font-family: "Quicksand", sans-serif;
+}
+
+em 
+{
+	font-size: 0.9em;
+	color: #777777;
+}
+
+
+.badge
+{
+	display: inline-block;
+	height: 128px;
+	width: 128px;
+	margin-top: 14px;
+	cursor: pointer;
+	background: transparent url('images/badge-bronze1.png') no-repeat top center;
+}
+
+.badge-silver1
+{
+	background-image: url('images/badge-silver1.png')
+}
+.badge-silver2
+{
+	background-image: url('images/badge-silver2.png')
+}
+.badge-gold1
+{
+	background-image: url('images/badge-gold1.png')
+}
+
+/*******************************/
+/********* bubbletip ***********/
+/*******************************/
+.bubbletip
+{
+	position: absolute;
+	z-index: 50;
+	border-collapse: collapse;
+}
+.bubbletip td.bt-topleft
+{
+	background: transparent url(bubbletip.png) no-repeat scroll 0px 0px;
+	height: 33px;
+	width: 33px;
+}
+.bubbletip td.bt-top
+{
+	background: transparent url(bubbletip-T-B.png) repeat-x scroll 0px 0px;
+	height: 33px;
+}
+.bubbletip td.bt-topright
+{
+	background: transparent url(bubbletip.png) no-repeat scroll -73px 0px;
+	height: 33px;
+	width: 33px;
+}
+.bubbletip td.bt-left-tail div.bt-left, .bubbletip td.bt-left
+{
+	background: transparent url(bubbletip-L-R.png) repeat-y scroll 0px 0px;
+	width: 33px;
+}
+.bubbletip td.bt-left-tail div.bt-left-tail
+{
+	background: transparent url(bubbletip.png) no-repeat scroll 0px -33px;
+	width: 33px;
+	height: 40px;
+}
+.bubbletip td.bt-right-tail div.bt-right, .bubbletip td.bt-right
+{
+	background: transparent url(bubbletip-L-R.png) repeat-y scroll -33px 0px;
+	width: 33px;
+}
+.bubbletip td.bt-right-tail div.bt-right-tail
+{
+	background: transparent url(bubbletip.png) no-repeat scroll -73px -33px;
+	width: 33px;
+	height: 40px;
+}
+.bubbletip td.bt-bottomleft
+{
+	background: transparent url(bubbletip.png) no-repeat scroll 0px -73px;
+	height: 33px;
+	width: 33px;
+}
+.bubbletip td.bt-bottom
+{
+	background: transparent url(bubbletip-T-B.png) repeat-x scroll 0px -33px;
+	height: 33px;
+}
+.bubbletip td.bt-bottomright
+{
+	background: transparent url(bubbletip.png) no-repeat scroll -73px -73px;
+	height: 33px;
+	width: 33px;
+}
+.bubbletip table.bt-top, .bubbletip table.bt-bottom
+{
+	width: 100%;
+}
+.bubbletip table.bt-top th
+{
+	width: 50%;
+	background: transparent url(bubbletip-T-B.png) repeat-x scroll 0px 0px;
+}
+.bubbletip table.bt-bottom th
+{
+	width: 50%;
+	background: transparent url(bubbletip-T-B.png) repeat-x scroll 0px -33px;
+}
+.bubbletip table.bt-top td div
+{
+	background: transparent url(bubbletip.png) no-repeat scroll -33px 0px;
+	width: 40px;
+	height: 33px;
+}
+.bubbletip table.bt-bottom td div
+{
+	background: transparent url(bubbletip.png) no-repeat scroll -33px -73px;
+	width: 40px;
+	height: 33px;
+}
+.bubbletip td.bt-content
+{
+	background-color: #fff;
+	vertical-align: middle;
+}
+/*******************************/
