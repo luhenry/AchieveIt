@@ -25,39 +25,41 @@
         var req = createXMLHTTPObject();
         if (!req) return;
 
-        console.log(method);
-        req.open("GET",url);
+        req.open("GET",url,true);
 
         req.onreadystatechange = function () {
             if (req.readyState != 4) return;
             if (req.status != 200 && req.status != 304) {
+                console.log("Error");
+                console.log(req.status);
+                console.log(req.statusText);
                 error_callback(req);
+            } else {
+                console.log("Callback");
+                callback(req);
             }
-            callback(req);
         }
 
         req.send("");
     }
 
 
-    function show_badge(api_key, project_slug, achievement_slug)
+    function show_badge(project_slug, achievement_slug)
     {
-        console.log("Coucou");
-        request('me.json?auth_token=' + api_key, 'GET', function(req) {
-            console.log('req' + req);
-        })
-        // request('user_achievement/?auth_key=' + api_key +
-        //     '&project_slug=' + project_slug +
-        //     '&achievement_slug=' + achievement_slug, 'GET',
-        //     function (req) {
-        //         console.log(req);
-        //         // Show data
-        //     }, function (req) {
-        //         if(req.status == 401) {
-        //             console.log('401');
-        //             // Show login button
-        //         }
-        //     });
+        request('http://ec2-54-247-86-73.eu-west-1.compute.amazonaws.com/level/' + project_slug +
+            '/' + achievement_slug, 'GET',
+            function (req) {
+                console.log(req);
+                // Show data
+            }, function (req) {
+                console.log('In error callback');
+                console.log(req.status);
+                if(req.status == 401) {
+                    console.log('401');
+                    console.log(location);
+                    // Show login button
+                }
+            });
     }
 
     scope.show_badge = show_badge;

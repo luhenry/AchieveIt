@@ -12,6 +12,8 @@ Achieveit::Application.routes.draw do
 
   get    'me(.:format)' => 'users#me'
 
+  get    'admin'                               => 'admin#show'
+
   get    'admin/projects(.:format)'            => 'projects#index'
   get    'admin/projects/:slug(.:format)'      => 'projects#show'
   get    'admin/projects/new(.:format)'        => 'projects#new'
@@ -45,7 +47,7 @@ Achieveit::Application.routes.draw do
   delete 'admin/achievements/:project_slug/:slug(.:format)'      => 'achievements#destroy'
 
 
-  get    'user-achievements/:user_id(.:format)'                                => 'user_achievements#get_user'  
+  get    'user-achievements/:user_id(.:format)'                                => 'user_achievements#get_user'
   get    'user-achievements/:user_id/:achievement_slug(.:format)'              => 'user_achievements#get_user_achievement'
   post   'user-achievements/:user_id/:achievement_slug/set(/:value)(.:format)' => 'user_achievements#set',       :defaults => {format: 'json'}
   post   'user-achievements/:user_id/:achievement_slug/inc(/:value)(.:format)' => 'user_achievements#increment', :defaults => {format: 'json', value: 1}
