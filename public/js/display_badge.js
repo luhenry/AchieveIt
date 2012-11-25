@@ -1,6 +1,6 @@
 (function(scope){
 
-    function request(url, method, callback, error_callback) {
+    function request(url, method, callback) {
         var XMLHttpFactories = [
             function () {return new XMLHttpRequest()},
             function () {return new ActiveXObject("Msxml2.XMLHTTP")},
@@ -30,12 +30,8 @@
         req.onreadystatechange = function () {
             if (req.readyState != 4) return;
             if (req.status != 200 && req.status != 304) {
-                console.log("Error");
-                console.log(req.status);
-                console.log(req.statusText);
-                error_callback(req);
+                return;
             } else {
-                console.log("Callback");
                 callback(req);
             }
         }
@@ -44,21 +40,20 @@
     }
 
 
-    function show_badge(project_slug, achievement_slug)
+    function show_badge(project_slug, achievement_slug, id)
     {
+        var search = window.location.search.substring(1);
+        var parts = search.split("=");
+
+        if (!parts[1]) {
+            location.href = 'http://api.gameup.co/login?redirect_url=' + encodeURIComponent( document.location.href )
+        }
+
         request('http://api.gameup.co/level/' + project_slug +
-            '/' + achievement_slug, 'GET',
+            '/' + achievement_slug + '?username=' + parts[1], 'GET',
             function (req) {
-                console.log(req);
-                // Show data
-            }, function (req) {
-                console.log('In error callback');
-                console.log(req.status);
-                if(req.status == 401) {
-                    console.log('401');
-                    console.log(location);
-                    // Show login button
-                }
+                var data = eval(req.responseText);
+                document.getElementById(id).appendChild(document.createTextNode(data));
             });
     }
 
