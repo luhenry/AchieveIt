@@ -75,13 +75,30 @@ function show_badge(project_slug, achievement_slug, id)
             '/' + achievement_slug + '?username=' + parts[1], 'GET',
             function (req) {
                 var data = eval(req.responseText);
-                var infos = get_steps_info(project_slug, achievement_slug, parts[1], data, function(next_step) {
-                        console.log(next_step);
-                        document.getElementById(id).innerHTML = '<span style="display: inline-block; background-image: url(img/badges-hex-0003.png); width: 128px; height: 128px; background-size:contain;">' +
-                        '<b style="display: inline-block; width: 128px; text-align: center; margin-top: 57px; font-size: 400%; color: white;">' + data + '</b></span><span style="font-size: 200%;">Nombre de parrainages</span>' +
-                        '<hr><h1>Progression</h1><progress value="'+data+'" max="'+next_step+'"></progress><p>'+data+'/'+next_step+'</p>' +
-                        '<hr><h1>ADMIN site</h1><button class="btn btn-primary"' +
-                        ' onClick="plus_one(\''+ project_slug+'\',\''+achievement_slug+'\')">Valider un nouveau parrainage</button>';
+                console.log(data);
+                var value = data[0];
+                var step = data[1];
+                console.log(value);
+                var infos = get_steps_info(project_slug, achievement_slug, parts[1], value, function (next_step) {
+                        request('http://api.gameup.co/leaderboard/' + project_slug + '/' + achievement_slug, 'GET', function (leaderboard) {
+                            var l = JSON.parse(leaderboard.responseText);
+                            var content =  '<span style="display: inline-block; background-image: url(img/badges-hex-0003.png); width: 128px; height: 128px; background-size:contain;">' +
+                            '<b style="display: inline-block; width: 128px; text-align: center; margin-top: 57px; font-size: 400%; color: white;">' + step + '</b></span><span style="font-size: 200%;">Parrainage</span>' +
+                            '<progress style="margin-left: 100px; height: 20px;" value="'+value+'" max="'+next_step+'"></progress><b style="margin-left: 20px; font-size: 200%;">'+value+' / '+next_step+' fillots</b>' +
+                            '<hr><h1>Leaderboard</h1><table class="table"><thead><tr><td>#</td><td>Username</td><td>Progression</td></tr></thead>';
+
+                            var i = 1;
+                            for(user in l) {
+                                content += '<tr><td>'+i+'</td><td>' + l[user][0] + '</td><td>' + l[user][1] + '</td></tr>';
+                                i += 1;
+                            }
+
+                            content += '</table>' +
+                            '<hr><h1>ADMIN site</h1><button class="btn btn-primary"' +
+                            ' onClick="plus_one(\''+ project_slug+'\',\''+achievement_slug+'\')">Valider un nouveau parrainage</button>';
+
+                            document.getElementById(id).innerHTML = content
+                        });
                     });
             });
     }
